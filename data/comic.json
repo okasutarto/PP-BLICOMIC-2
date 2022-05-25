@@ -1,0 +1,58 @@
+[
+  {
+    "title": "One Piece",
+    "description": "Follows the adventures of Monkey D. Luffy and his pirate crew in order to find the greatest treasure ever left by the legendary Pirate, Gold Roger. The famous mystery treasure named One Piece.",
+    "price": 15000,
+    "stock": 10,
+    "genre": "Action"
+  },
+  {
+    "title": "Naruto",
+    "description": " It tells the story of Naruto Uzumaki, a young ninja who seeks recognition from his peers and dreams of becoming the Hokage, the leader of his village. The story is told in two parts – the first set in Naruto's pre-teen years, and the second in his teens.",
+    "price": 20000,
+    "stock": 20,
+    "genre": "Action"
+  },
+  {
+    "title": "Uzumaki",
+    "description": "In the town of Kurouzu-cho, Kirie Goshima lives a fairly normal life with her family. As she walks to the train station one day to meet her boyfriend, Shuuichi Saito, she sees his father staring at a snail shell in an alley. Thinking nothing of it, she mentions the incident to Shuuichi, who says that his father has been acting weird lately. Shuuichi reveals his rising desire to leave the town with Kirie, saying that the town is infected with spirals.",
+    "price": 17000,
+    "stock": 15,
+    "genre": "Horror"
+  },
+  {
+    "title": "Homunculus",
+    "description": "Homonculus is largely driven by the protagonist's weird visions around those he meets, with their insecurities manifesting themselves as monsters reflective of their problems. Consequently, when he frees someone of their demons, those distortions become a part of him, obscuring his own sense of self. However, the more he uses the powers the duller they become, leading him to begin performing operations on himself to widen the hole and increase awareness.",
+    "price": 20000,
+    "stock": 8,
+    "genre": "Horror"
+  },
+  {
+    "title": "Orange",
+    "description": "Orange is a romance/high school drama with a speculative twist. Sixteen-year-old Naho Takamiya discovers a letter from herself from ten years into that future that tells her to watch for a new transfer student, Kakeru Naruse, who will become one of her friends. Though happiness has not eluded future Naho, she has many regrets over things that she wishes her younger self had done differently.",
+    "price": 18000,
+    "stock": 9,
+    "genre": "Drama"
+  },
+  {
+    "title": "Good Ending",
+    "description": "It follows the life of Seiji Utsumi, a shy school boy with a crush on a tennis captain, Shō Iketani. He is encouraged by Yuki Kurokawa to confess his feelings. As the story progresses, Seiji finds himself falling in love with Yuki.",
+    "price": 15000,
+    "stock": 30,
+    "genre": "Drama"
+  },
+  {
+    "title": "Kungfu Komang",
+    "description": "A boy named Komang learns Kung fu and meets many friends along the way.",
+    "price": 10000,
+    "stock": 21,
+    "genre": "Comedy"
+  },
+  {
+    "title": "Great Teacher Onizuka",
+    "description": "The series, which follows the titular teacher, was known for its crude and over the top humor, ultimately anchored by a teacher who put his students first.",
+    "price": 20000,
+    "stock": 17,
+    "genre": "Comedy"
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "firstName": "Tully",
+    "lastName": "Adrien",
+    "address": "1193 Village Point",
+    "UserId": 1
+  },
+  {
+    "firstName": "Sena",
+    "lastName": "Arthan",
+    "address": "46 Tennessee Court",
+    "UserId": 2
+  },
+  {
+    "firstName": "Marc",
+    "lastName": "Snoddon",
+    "address": "9957 Declaration Alley",
+    "UserId": 3
+  }
+]
