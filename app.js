@@ -27,6 +27,16 @@ app.use(session({
 //   }
 // }
 
+const isLoggedIn = function (req, res, next) {
+  console.log(req.session);
+  if (!req.session.UserId) {
+    const error = 'Login dulu dong ah'
+    res.redirect(`/login?error=${error}`)
+  } else {
+    next()
+  }
+}
+
 app.get('/register', Controller.userForm)
 
 app.post('/register', Controller.userPost)
@@ -35,19 +45,11 @@ app.get('/login', Controller.login)
 
 app.post('/login', Controller.postLogin)
 
-app.use((req, res, next) => {
-  console.log(req.session);
-  if (!req.session.UserId) {
-    const error = 'Login dulu dong ah'
-    res.redirect(`/login?error=${error}`)
-  } else {
-    next()
-  }
-})
+app.get('/logout', Controller.logout)
 
-app.get('/home/:UserId', (req, res) => {
-  res.send('hello world')
-})
+app.use(isLoggedIn)
+
+app.get('/home/:UserId', Controller.home)
 
 
 app.listen(port, () => {
