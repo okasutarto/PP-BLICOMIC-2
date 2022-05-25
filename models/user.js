@@ -11,9 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       User.belongsToMany(models.Comic, {
-        through: models.User_Comics
+        through: models.User_Comic
       }),
-        User.hasOne(models.Profile)
+      User.hasOne(models.Profile)
     }
   }
   User.init({
