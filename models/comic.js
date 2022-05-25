@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Comic.belongsToMany(models.User, {
-        through: models.User_Comics
+        through: models.User_Comic
       })
     }
   }
