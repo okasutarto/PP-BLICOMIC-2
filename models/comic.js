@@ -23,7 +23,16 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     description: DataTypes.TEXT,
     price: DataTypes.INTEGER,
-    stock: DataTypes.INTEGER,
+    stock: {
+      type: DataTypes.INTEGER,
+      validate: {
+        min: {
+          args: [0],
+          msg: 'Min stock is 0'
+        }
+
+      }
+    },
     genre: DataTypes.STRING,
   }, {
     sequelize,

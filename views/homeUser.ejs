@@ -26,10 +26,13 @@
         <a class="navbar-brand" href="#">Bli Comic</a>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/profile">Profile</a>
+            <a class="nav-link active" aria-current="page" href="/profileUser">Profile</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/logout">logout</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Chart</a>
           </li>
         </ul>
         <form class="d-flex" role="search" action="/comics/admin" method="get">
@@ -63,9 +66,8 @@
         <th>Price</th>
         <th>Stock</th>
         <th>Genre</th>
-        <th>Jumlah Transaksi</th>
-        <th>Update Stock</th>
-        <th>Delete Comic</th>
+        <th>Total Buyer</th>
+        <th>Buy</th>
       </tr>
       <% data.forEach(el=> { %>
         <tr>
@@ -76,7 +78,7 @@
             <%= el.description %>
           </td>
           <td>
-            <%= el.price %>
+            <%= format(el.price) %>
           </td>
           <td>
             <%= el.stock %>
@@ -89,17 +91,12 @@
           </td>
           <td>
             <div class="d-inline-block justify-content-center">
-              <form action="/comics/admin/updateStock/<%= el.id %>" method="get">
-                <input type="number" name="stock" class="form-control">
-                <button type="submit" class="btn btn-outline-primary" value="update">update</button>
+              <form action="/comics/user/buy/<%= el.id %>/<%= idUser %>" method="post">
+                <input type="number" min="1" name="totalBuy" class="form-control">
+                <button type="submit" class="btn btn-outline-primary" value="update">Buy</button>
               </form>
-              <p style="color:red ;">
-                <%= err %>
-              </p>
             </div>
           </td>
-          <td><a href="/comics/admin/delete/<%= el.id %>"><button type="button"
-                class="btn btn-outline-danger">Delete</button></a></td>
         </tr>
         <% }) %>
     </table>

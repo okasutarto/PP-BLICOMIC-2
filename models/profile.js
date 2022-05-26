@@ -58,7 +58,13 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    avatar: DataTypes.STRING,
+    avatar: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isUrl: true,
+      }
+    },
     UserId: DataTypes.INTEGER
   }, {
     sequelize,

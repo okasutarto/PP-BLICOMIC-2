@@ -1,3 +1,5 @@
 function format(value) {
-  return
+  return `Rp ${value.toLocaleString().replace(/,/g, '.')},00`
 }
+
+module.exports = format

@@ -1,11 +1,17 @@
-const { User, Comic, Profile } = require('../models')
+const { User, Comic, Profile, User_Comic } = require('../models')
 const bcrypt = require('bcryptjs')
-const Op = require('sequelize');
+const { Op } = require('sequelize');
+const pictURL = require('pict-url');
+const Imgur = pictURL.Provider.Imgur;
+const Client = new pictURL.Client(Imgur);
+const format = require('../helpers/formatter')
 
 class Controller {
   static homeAdmin(req, res) {
     let search = req.query.search
+    console.log(search);
     let sort = req.query.sort
+    let err = req.query.err
 
     let obj = {
       include: User
@@ -14,7 +20,7 @@ class Controller {
     if (search) {
       obj.where = {
         title: {
-          [Op.substring]: `${search}`
+          [Op.iLike]: `%${search}%`
         }
       }
     }
@@ -24,16 +30,43 @@ class Controller {
 
     Comic.findAll(obj)
       .then(data => {
-        res.render('homeAdmin', { data })
+        res.render('homeAdmin', { data, err })
       })
       .catch(err => {
-        console.log(err)
+        // console.log(err)
         res.send(err)
       })
   }
 
   static homeUser(req, res) {
-    res.render('home')
+    let search = req.query.search
+    // console.log(search);
+    let idUser = req.session.UserId
+    let sort = req.query.sort
+
+    let obj = {
+      include: User
+    }
+
+    if (search) {
+      obj.where = {
+        title: {
+          [Op.iLike]: `%${search}%`
+        }
+      }
+    }
+    if (sort) {
+      obj.order = Comic.sorting(sort)
+    }
+
+    Comic.findAll(obj)
+      .then(data => {
+        res.render('homeUser', { data, format, idUser })
+      })
+      .catch(err => {
+        console.log(err)
+        res.send(err)
+      })
   }
 
   static userForm(req, res) {
@@ -73,14 +106,32 @@ class Controller {
     // console.log(req.body);
     const { firstName, lastName, address } = req.body
     let userId;
-    User.findAll({
-      order: [['id', 'DESC']]
-    })
+
+    let category = "doggos";
+    let avatar = "";
+
+    Client.getImage(category)
+      .then((image) => {
+        avatar = image.url;
+        return User.findAll({
+          order: [['id', 'DESC']]
+        })
+      })
       .then(data => {
         userId = data[0].id
-        console.log(userId);
+        // console.log(userId);
         return Profile.create({
-          firstName, lastName, address
+          firstName, lastName, address, avatar
+        })
+      })
+      .then(() => {
+        return User.max('id')
+      })
+      .then(maxIdUser => {
+        Profile.update({ UserId: maxIdUser }, {
+          where: {
+            UserId: null
+          }
         })
       })
       .then(() => {
@@ -131,11 +182,11 @@ class Controller {
               return res.redirect(`/comics/user/${user.id}`)
             }
           } else {
-            const error = 'invalid password';
+            const error = 'Invalid Password';
             return res.redirect(`/login?error=${error}`)
           }
         } else {
-          const error2 = 'invalid username';
+          const error2 = 'Invalid Username';
           return res.redirect(`/login?error=${error2}`)
         }
       })
@@ -156,8 +207,10 @@ class Controller {
         res.redirect('/comics/admin')
       })
       .catch(err => {
-        console.log(err)
-        res.send(err)
+        if (err.name === 'SequelizeValidationError') {
+          err = err.errors.map(el => el.message)
+          res.redirect(`/comics/admin?err=${err}`)
+        }
       })
   }
 
@@ -184,6 +237,55 @@ class Controller {
         res.redirect('/login')
       }
     })
+  }
+
+  static buyComic(req, res) {
+    let totalBuy = req.body.totalBuy
+    let idComic = req.params.idComic
+    let idUser = req.params.idUser
+    console.log(totalBuy);
+    // console.log(req.params);
+    Comic.findByPk(idComic)
+      .then(data => {
+        let obj = {
+          totalPurchased: totalBuy * data.price,
+          UserId: idUser,
+          ComicId: idComic
+        }
+        // console.log(obj);
+        return User_Comic.create(obj)
+      })
+      .then(() => {
+        return Comic.decrement({ stock: totalBuy }, {
+          where: {
+            id: idComic
+          }
+        })
+      })
+      .then(() => {
+        res.redirect(`/comics/user/${idUser}`)
+      })
+      .catch(err => {
+        console.log(err);
+        res.send(err)
+      })
+  }
+
+  static userProfile(req, res) {
+    let id = req.session.UserId
+    console.log(id);
+    Profile.findByPk(id)
+      .then(data => {
+        console.log(data);
+        res.render('profile', { data })
+      })
+      .catch(err => {
+        res.send(err)
+      })
+  }
+
+  static chart(req, res) {
+    res.render('chart')
   }
 }
 
