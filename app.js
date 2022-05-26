@@ -55,8 +55,6 @@ app.use('/profileUser', Controller.userProfile)
 
 app.get('/comics/admin', Controller.homeAdmin)
 
-app.use('/comics/chart', Controller.chart)
-
 app.get('/comics/user/:UserId', isAdmin, Controller.homeUser)
 
 app.post('/comics/user/buy/:idComic/:idUser', Controller.buyComic)

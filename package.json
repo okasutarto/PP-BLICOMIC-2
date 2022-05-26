@@ -11,5 +11,23 @@
   },
   "devDependencies": {
     "sequelize-cli": "^6.4.1"
-  }
+  },
+  "name": "PP-BLICOMIC-2",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/okasutarto/PP-BLICOMIC-2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/okasutarto/PP-BLICOMIC-2/issues"
+  },
+  "homepage": "https://github.com/okasutarto/PP-BLICOMIC-2#readme",
+  "description": ""
 }

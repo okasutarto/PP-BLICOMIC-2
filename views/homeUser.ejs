@@ -31,11 +31,8 @@
           <li class="nav-item">
             <a class="nav-link" href="/logout">logout</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/logout">Chart</a>
-          </li>
         </ul>
-        <form class="d-flex" role="search" action="/comics/admin" method="get">
+        <form class="d-flex" role="search" action="/comics/user/<%= idUser %>" method="get">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
@@ -46,7 +43,7 @@
     <div class="d-inline-flex justify-content-center ite">
       Sort By:
       <div class="d-inline-flex">
-        <form action="/comics/admin" method="get" style="width:200px ;">
+        <form action="/comics/user/<%= idUser %>" method="get" style="width:200px ;">
           <select class="form-select w-auto m-0" name="sort" id="">
             <option value="" selected disabled hidden>Choose...</option>
             <option value="genre">Genre</option>

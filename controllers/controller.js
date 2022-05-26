@@ -30,7 +30,7 @@ class Controller {
 
     Comic.findAll(obj)
       .then(data => {
-        res.render('homeAdmin', { data, err })
+        res.render('homeAdmin', { data, err , format})
       })
       .catch(err => {
         // console.log(err)
@@ -243,7 +243,7 @@ class Controller {
     let totalBuy = req.body.totalBuy
     let idComic = req.params.idComic
     let idUser = req.params.idUser
-    console.log(totalBuy);
+    // console.log(totalBuy);
     // console.log(req.params);
     Comic.findByPk(idComic)
       .then(data => {
@@ -252,13 +252,15 @@ class Controller {
           UserId: idUser,
           ComicId: idComic
         }
-        // console.log(obj);
         return User_Comic.create(obj)
       })
       .then(() => {
         return Comic.decrement({ stock: totalBuy }, {
           where: {
-            id: idComic
+            id: idComic,
+            stock: {
+              [Op.gt]: 0
+            }
           }
         })
       })
@@ -277,15 +279,11 @@ class Controller {
     Profile.findByPk(id)
       .then(data => {
         console.log(data);
-        res.render('profile', { data })
+        res.render('profile', { data , id})
       })
       .catch(err => {
         res.send(err)
       })
-  }
-
-  static chart(req, res) {
-    res.render('chart')
   }
 }
 
