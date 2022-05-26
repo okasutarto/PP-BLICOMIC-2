@@ -7,13 +7,14 @@ class Controller {
         let sort = req.query.sort
 
         let obj = {
-            include: User
+            include: User,
+            order: [['id', 'ASC']]
         }
 
         if (search) {
             obj.where = {
                 title: {
-                    [Op.substring]: search
+                    [Op.iLike]: `%${search}%`
                 }
             }
         }

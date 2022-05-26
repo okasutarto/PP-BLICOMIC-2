@@ -5,8 +5,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div id="user" data-bulan="Januaryyy" data-user="johndoe" data-date-of-birth>John Doe</div>
+    <script>
+        const el = document.querySelector('#user').dataset.bulan
+        const labels = [
+          el,
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+        ];
+      
+        const data = {
+          labels: labels,
+          datasets: [{
+            label: 'My First dataset',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0, 10, 5, 2, 20, 30, 45],
+          }]
+        };
+      
+        const config = {
+          type: 'line',
+          data: data,
+          options: {}
+        };
+      </script>
 </head>
 <body>
+    <div style="width: 500px; height: 500px">
+        <canvas id="myChart">
+            <script>
+                const myChart = new Chart(
+                  document.getElementById('myChart'),
+                  config
+                );
+            </script>
+        </canvas>
+    </div>
     <h1>BLICOMIC 
         <a href="/login"><button>Login</button></a>
         <a href="/register"><button>Register</button></a>
@@ -32,6 +71,7 @@
     <br>
     <table border="1">
         <tr>
+            <th>No.</th>
             <th>Title</th>
             <th>Description</th>
             <th>Price</th>
@@ -42,8 +82,9 @@
             <th>Update Stock</th>
             <th>Delete Comic</th>
         </tr>
-        <% data.forEach(el => { %>
+        <% data.forEach((el, idx) => { %>
             <tr>
+                <td><%= idx + 1 %></td>
                 <td><%= el.title %></td>
                 <td><%= el.description %></td>
                 <td><%= el.price %></td>
