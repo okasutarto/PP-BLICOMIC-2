@@ -1,10 +1,42 @@
 const { User, Comic, Profile } = require('../models')
 const bcrypt = require('bcryptjs')
+const user = require('../models/user')
 
 class Controller {
-  static home(req, res) {
+  static homeAdmin(req, res) {
+    let search = req.query.search
+    let sort = req.query.sort
+    let obj = {
+      include: User
+    }
+
+    if (search) {
+      obj.where = {
+        title: {
+          [Op.substring]: search
+        }
+      }
+    }
+    if (sort) {
+      obj.order = Comic.sorting(sort)
+    }
+    console.log(search, sort)
+    console.log(obj, 1111)
+
+    Comic.findAll(obj)
+      .then(data => {
+        res.render('homeAdmin', { data })
+      })
+      .catch(err => {
+        console.log(err)
+        res.send(err)
+      })
+  }
+
+  static homeUser(req, res) {
     res.render('home')
   }
+
   static userForm(req, res) {
     res.render('register', { errors: {} })
   }
@@ -40,7 +72,6 @@ class Controller {
   }
 
   static postLogin(req, res) {
-
     const { userName, password } = req.body
     User.findOne({
       where: {
@@ -54,9 +85,14 @@ class Controller {
 
           if (isValidPassword) {
             //case berhasil login
+            req.session.userName = user.userName
             req.session.UserId = user.id
             req.session.role = user.role
-            return res.redirect(`/home/${user.id}`)
+            if (user.role === 'admin' || user.userName === 'admin') {
+              return res.redirect('/home/admin')
+            } else {
+              return res.redirect(`/home/${user.id}`)
+            }
           } else {
             const error = 'invalid password';
             return res.redirect(`/login?error=${error}`)
