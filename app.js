@@ -31,7 +31,7 @@ const isLoggedIn = function (req, res, next) {
 const isAdmin = function (req, res, next) {
   console.log(req.session.role);
   if (req.session.role === 'admin') {
-    res.redirect('/home/admin')
+    res.redirect('/comics/admin')
   } else {
     next()
   }
@@ -51,9 +51,13 @@ app.post('/login', Controller.postLogin)
 
 app.use(isLoggedIn)
 
-app.get('/home/admin', Controller.homeAdmin)
+app.get('/comics/admin', Controller.homeAdmin)
 
-app.get('/home/:UserId', isAdmin, Controller.homeUser)
+app.get('/comics/user/:UserId', isAdmin, Controller.homeUser)
+
+app.get('/comics/admin/updateStock/:id', Controller.updateStock)
+
+app.get('/comics/admin/delete/:id', Controller.deleteComic)
 
 app.get('/logout', Controller.logout)
 

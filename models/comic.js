@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
         through: models.User_Comic
       })
     }
+
+    static sorting(input) {
+      return [[input, 'DESC']]
+    }
   }
   Comic.init({
     title: DataTypes.STRING,

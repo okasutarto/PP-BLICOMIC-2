@@ -5,76 +5,101 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Bli Comic</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+    crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <h1>BLICOMIC
-    <a href="/login"><button>Login</button></a>
-    <a href="/register"><button>Register</button></a>
-    <a href="/profile/:id"><button>Profile</button></a>
-    <a href="/logout"><button>Log Out</button></a>
-  </h1>
-  <br>
-  <p>
-    Selamat Datang, Selamat Berbelanja Di BLICOMIC
-  </p>
-  <form action="/comics" method="get">
-    Search By Title:
-    <input type="text" name="search"><br>
-    Sort By:
-    <select name="sort" id="">
-      <option value="" selected disabled hidden>Choose...</option>
-      <option value="genre">Genre</option>
-      <option value="price">Price</option>
-      <option value="stock">Stock</option>
-    </select><br>
-    <input type="submit">
-  </form>
-  <br>
-  <table border="1">
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Price</th>
-      <th>Stock</th>
-      <th>Genre</th>
-      <th>Jumlah Transaksi</th>
-      <th>Total Buy</th>
-      <th>Update Stock</th>
-      <th>Delete Comic</th>
-    </tr>
-    <% data.forEach(el=> { %>
+  <nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01"
+        aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Bli Comic</a>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/profile">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">logout</a>
+          </li>
+        </ul>
+        <form class="d-flex" role="search" action="/comics/admin" method="get">
+          <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav><br>
+  <div class="ms-3">
+    <div class="d-inline-flex justify-content-center ite">
+      Sort By:
+      <form action="/comics/admin" method="get">
+        <select class="form-select w-auto" name="sort" id="">
+          <option value="" selected disabled hidden>Choose...</option>
+          <option value="genre">Genre</option>
+          <option value="price">Price</option>
+          <option value="stock">Stock</option>
+        </select><br>
+        <div><button type="submit" class="btn btn-outline-primary">sort</button></div>
+      </form>
+    </div>
+    <br>
+    <br>
+    <table class="table table-bordered table-striped">
       <tr>
-        <td>
-          <%= el.title %>
-        </td>
-        <td>
-          <%= el.description %>
-        </td>
-        <td>
-          <%= el.price %>
-        </td>
-        <td>
-          <%= el.stock %>
-        </td>
-        <td>
-          <%= el.genre %>
-        </td>
-        <td>
-          <%= el.Users.length %>
-        </td>
-        <td><input type="number"><a href="/comics/buy/<% el.id %>/:idUser"><button>Buy</button></a></td>
-        <td>
-          <form action="/comics/updateStock/<%= el.id %>" method="get">
-            <input type="number" name="stock">
-            <input type="submit" value="update">
-          </form>
-        </td>
-        <td><a href="/comics/delete/<%= el.id %>"><button>Delete</button></a></td>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Genre</th>
+        <th>Jumlah Transaksi</th>
+        <th>Update Stock</th>
+        <th>Delete Comic</th>
       </tr>
-      <% }) %>
-  </table>
+      <% data.forEach(el=> { %>
+        <tr>
+          <td>
+            <%= el.title %>
+          </td>
+          <td>
+            <%= el.description %>
+          </td>
+          <td>
+            <%= el.price %>
+          </td>
+          <td>
+            <%= el.stock %>
+          </td>
+          <td>
+            <%= el.genre %>
+          </td>
+          <td>
+            <%= el.Users.length %>
+          </td>
+          <td>
+            <div class="d-inline-block justify-content-center">
+              <form action="/comics/admin/updateStock/<%= el.id %>" method="get">
+
+                <input type="number" name="stock" class="form-control">
+                <button type="submit" class="btn btn-outline-primary" value="update">update</button>
+              </form>
+            </div>
+          </td>
+          <td><a href="/comics/admin/delete/<%= el.id %>"><button type="button"
+                class="btn btn-outline-danger">Delete</button></a></td>
+        </tr>
+        <% }) %>
+    </table>
+  </div>
 </body>
 
 </html>

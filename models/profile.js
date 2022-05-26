@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Profile.belongsTo(models.User)
     }
+
+    formatFullName() {
+      return `${this.firstName} ${this.lastName}`
+    }
   }
   Profile.init({
     firstName: {
@@ -59,21 +63,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Profile',
-    hooks: {
-      beforeCreate: (instance) => {
-        let category = "doggos";
-        Client.getImage(category)
-          .then((image) => {
-
-            // Image is a basic object
-            instance.avatar = image.url;
-            console.log(instance.avatar)
-          })
-          .catch(err => {
-            console.log(err)
-          })
-      }
-    }
   });
   return Profile;
 };

@@ -5,12 +5,76 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
+  <title>Document</title>
 </head>
 
 <body>
-  <h2>Home User</h2>
-  <a href="/logout"><button>Logout</button></a>
+  <h1>BLICOMIC
+    <a href="/login"><button>Login</button></a>
+    <a href="/register"><button>Register</button></a>
+    <a href="/profile/:id"><button>Profile</button></a>
+    <a href="/logout"><button>Log Out</button></a>
+  </h1>
+  <br>
+  <p>
+    Selamat Datang, Selamat Berbelanja Di BLICOMIC
+  </p>
+  <form action="/comics" method="get">
+    Search By Title:
+    <input type="text" name="search"><br>
+    Sort By:
+    <select name="sort" id="">
+      <option value="" selected disabled hidden>Choose...</option>
+      <option value="genre">Genre</option>
+      <option value="price">Price</option>
+      <option value="stock">Stock</option>
+    </select><br>
+    <input type="submit">
+  </form>
+  <br>
+  <table border="1">
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Stock</th>
+      <th>Genre</th>
+      <th>Jumlah Transaksi</th>
+      <th>Total Buy</th>
+      <th>Update Stock</th>
+      <th>Delete Comic</th>
+    </tr>
+    <% data.forEach(el=> { %>
+      <tr>
+        <td>
+          <%= el.title %>
+        </td>
+        <td>
+          <%= el.description %>
+        </td>
+        <td>
+          <%= el.price %>
+        </td>
+        <td>
+          <%= el.stock %>
+        </td>
+        <td>
+          <%= el.genre %>
+        </td>
+        <td>
+          <%= el.Users.length %>
+        </td>
+        <td><input type="number"><a href="/comics/buy/<% el.id %>/:idUser"><button>Buy</button></a></td>
+        <td>
+          <form action="/comics/updateStock/<%= el.id %>" method="get">
+            <input type="number" name="stock">
+            <input type="submit" value="update">
+          </form>
+        </td>
+        <td><a href="/comics/delete/<%= el.id %>"><button>Delete</button></a></td>
+      </tr>
+      <% }) %>
+  </table>
 </body>
 
 </html>

@@ -1,11 +1,12 @@
 const { User, Comic, Profile } = require('../models')
 const bcrypt = require('bcryptjs')
-const user = require('../models/user')
+const Op = require('sequelize');
 
 class Controller {
   static homeAdmin(req, res) {
     let search = req.query.search
     let sort = req.query.sort
+
     let obj = {
       include: User
     }
@@ -13,15 +14,13 @@ class Controller {
     if (search) {
       obj.where = {
         title: {
-          [Op.substring]: search
+          [Op.substring]: `${search}`
         }
       }
     }
     if (sort) {
       obj.order = Comic.sorting(sort)
     }
-    // console.log(search, sort)
-    // console.log(obj, 1111)
 
     Comic.findAll(obj)
       .then(data => {
@@ -67,7 +66,7 @@ class Controller {
   }
 
   static profileForm(req, res) {
-    res.render('formProfile')
+    res.render('formProfile', { errors: {} })
   }
 
   static profilePost(req, res) {
@@ -88,6 +87,17 @@ class Controller {
         res.redirect('/login')
       })
       .catch(err => {
+        if (err.name == 'SequelizeValidationError') {
+          const errors = {}
+          err.errors.forEach(el => {
+            if (errors[el.path]) {
+              errors[el.path].push(el.message)
+            } else {
+              errors[el.path] = [el.message]
+            }
+          })
+          return res.render('formProfile', { errors })
+        }
         res.send(err)
       })
   }
@@ -114,11 +124,11 @@ class Controller {
             req.session.userName = user.userName
             req.session.UserId = user.id
             req.session.role = user.role
-            console.log(user.role, user.userName);
+            // console.log(user.role, user.userName);
             if (user.role === 'admin') {
-              return res.redirect('/home/admin')
+              return res.redirect('/comics/admin')
             } else {
-              return res.redirect(`/home/${user.id}`)
+              return res.redirect(`/comics/user/${user.id}`)
             }
           } else {
             const error = 'invalid password';
@@ -130,6 +140,39 @@ class Controller {
         }
       })
       .catch(err => {
+        res.send(err)
+      })
+  }
+
+  static updateStock(req, res) {
+    let id = req.params.id
+    let stockUpdate = req.query.stock
+    Comic.update({ stock: stockUpdate }, {
+      where: {
+        id: id
+      }
+    })
+      .then(() => {
+        res.redirect('/comics/admin')
+      })
+      .catch(err => {
+        console.log(err)
+        res.send(err)
+      })
+  }
+
+  static deleteComic(req, res) {
+    let id = req.params.id
+    Comic.destroy({
+      where: {
+        id: id
+      }
+    })
+      .then(() => {
+        res.redirect('/comics/admin')
+      })
+      .catch(err => {
+        console.log(err)
         res.send(err)
       })
   }
