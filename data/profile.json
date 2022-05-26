@@ -3,18 +3,21 @@
     "firstName": "Tully",
     "lastName": "Adrien",
     "address": "1193 Village Point",
-    "UserId": 1
+    "UserId": 1,
+    "avatar": "http://imgur.com/gPEPqNB.jpg"
   },
   {
     "firstName": "Sena",
     "lastName": "Arthan",
     "address": "46 Tennessee Court",
-    "UserId": 2
+    "UserId": 2,
+    "avatar": "http://imgur.com/1sF85vM.jpg"
   },
   {
     "firstName": "Marc",
     "lastName": "Snoddon",
     "address": "9957 Declaration Alley",
-    "UserId": 3
+    "UserId": 3,
+    "avatar": "http://imgur.com/gPEPqNB.jpg"
   }
 ]

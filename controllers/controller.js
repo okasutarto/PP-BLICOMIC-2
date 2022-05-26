@@ -20,8 +20,8 @@ class Controller {
     if (sort) {
       obj.order = Comic.sorting(sort)
     }
-    console.log(search, sort)
-    console.log(obj, 1111)
+    // console.log(search, sort)
+    // console.log(obj, 1111)
 
     Comic.findAll(obj)
       .then(data => {
@@ -48,7 +48,7 @@ class Controller {
       userName, email, password
     })
       .then(data => {
-        res.redirect('/login')
+        res.redirect('/profile')
       })
       .catch(err => {
         if (err.name == 'SequelizeValidationError') {
@@ -62,6 +62,32 @@ class Controller {
           })
           return res.render('register', { errors })
         }
+        res.send(err)
+      })
+  }
+
+  static profileForm(req, res) {
+    res.render('formProfile')
+  }
+
+  static profilePost(req, res) {
+    // console.log(req.body);
+    const { firstName, lastName, address } = req.body
+    let userId;
+    User.findAll({
+      order: [['id', 'DESC']]
+    })
+      .then(data => {
+        userId = data[0].id
+        console.log(userId);
+        return Profile.create({
+          firstName, lastName, address
+        })
+      })
+      .then(() => {
+        res.redirect('/login')
+      })
+      .catch(err => {
         res.send(err)
       })
   }
@@ -88,7 +114,8 @@ class Controller {
             req.session.userName = user.userName
             req.session.UserId = user.id
             req.session.role = user.role
-            if (user.role === 'admin' || user.userName === 'admin') {
+            console.log(user.role, user.userName);
+            if (user.role === 'admin') {
               return res.redirect('/home/admin')
             } else {
               return res.redirect(`/home/${user.id}`)

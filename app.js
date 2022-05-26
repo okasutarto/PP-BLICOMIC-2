@@ -20,7 +20,6 @@ app.use(session({
 }))
 
 const isLoggedIn = function (req, res, next) {
-  // console.log(req.session);
   if (!req.session.UserId) {
     const error = 'You have to be login first'
     res.redirect(`/login?error=${error}`)
@@ -32,8 +31,7 @@ const isLoggedIn = function (req, res, next) {
 const isAdmin = function (req, res, next) {
   console.log(req.session.role);
   if (req.session.role === 'admin') {
-    console.log('1');
-    res.redirect('/home/')
+    res.redirect('/home/admin')
   } else {
     next()
   }
@@ -43,26 +41,19 @@ app.get('/register', Controller.userForm)
 
 app.post('/register', Controller.userPost)
 
+app.get('/profile', Controller.profileForm)
+
+app.post('/profile', Controller.profilePost)
+
 app.get('/login', Controller.login)
 
 app.post('/login', Controller.postLogin)
 
 app.use(isLoggedIn)
 
-// app.use((req, res, next) => {
-//   console.log(req.session.role);
-//   if (req.session.role === 'admin') {
-//     console.log('1');
-//     app.get('/home/admin', Controller.homeAdmin)
-//   } else {
-//     next()
-//   }
-// })
-app.use(isAdmin)
-
 app.get('/home/admin', Controller.homeAdmin)
 
-app.get('/home/:UserId', Controller.homeUser)
+app.get('/home/:UserId', isAdmin, Controller.homeUser)
 
 app.get('/logout', Controller.logout)
 
